@@ -1,7 +1,9 @@
 // loader
 window.addEventListener('load', () => {
     const loader = document.getElementById('loader');
-    const content = document.getElementsByTagName('main');
+    const content = document.querySelector('main');
+
+    const indexCards = document.querySelectorAll('.index-card');
 
     setTimeout(() => {
         loader.style.opacity = '0';
@@ -10,6 +12,13 @@ window.addEventListener('load', () => {
         setTimeout(() => {
             loader.style.display = 'none';
             content.style.display = 'block';
+
+            indexCards.forEach((card, index) => {
+                card.style.setProperty('--order', index);
+                card.classList.add('slide');
+            });
+
         }, 500);
     }, 500); 
 });
+

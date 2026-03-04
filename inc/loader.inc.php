@@ -1,7 +1,7 @@
 <div id="loader">
-  <div class="card-stack">
-    <div class="card"></div>
-    <div class="card"></div>
-    <div class="card"></div>
+  <div class="loader-stack">
+    <div class="loader-card"></div>
+    <div class="loader-card"></div>
+    <div class="loader-card"></div>
   </div>
 </div>
