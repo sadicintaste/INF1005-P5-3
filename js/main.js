@@ -23,9 +23,16 @@ window.addEventListener('load', () => {
 });
 
 // index
-function indexFlip(card) {
+function indexFlip(card, index) {
     if (!card.classList.contains('flipped')) {
         card.classList.add('flipped');
+
+        fetch('index_persist.php', {
+            method: 'POST',
+            body: JSON.stringify({ index: index }),
+            headers: { 'Content-Type': 'application/json' }
+        });
+
         allFlipped();
     }
 }

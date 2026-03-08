@@ -1,5 +1,6 @@
 <!-- tcg -->
 <?php
+session_start();
 
 // adjust based on your directory
 require_once '../PHP/vendor/autoload.php';
@@ -11,13 +12,24 @@ use TCGdex\TCGdex;
 
 $tcgdex = new TCGdex("en");
 
-$cardsResponse = $tcgdex->card->list();
-$randomKeys = array_rand($cardsResponse, 5);
-$displayCards = [];
+if (!isset($_SESSION['indexDisplay'])) {
+    $indexCards = $tcgdex->card->list();
+    $indexRandom = array_rand($indexCards, 5);
+    $indexDisplay = [];
 
-foreach ($randomKeys as $key) {
-    $displayCards[] = $tcgdex->card->get($cardsResponse[$key]->id);
+    foreach ($indexRandom as $key) {
+        $cardData = $tcgdex->card->get($indexCards[$key]->id);
+        $indexDisplay[] = [
+            'id' => $cardData->id,
+            'image' => $cardData->image,
+            'name' => $cardData->name,
+            'flipped' => false
+        ];
+    }
+    $_SESSION['indexDisplay'] = $indexDisplay;
 }
+
+$indexDisplay = $_SESSION['indexDisplay'];
 ?>
 
 <!DOCTYPE html>
@@ -50,15 +62,15 @@ include "inc/head.inc.php";
             <div class="container">
                 <div class="row justify-content-center gap-3">
 
-                    <?php foreach ($displayCards as $card): ?>
-                        <div class="index-card" onclick="indexFlip(this)">
+                    <?php foreach ($indexDisplay as $index => $card): ?>
+                        <div class="index-card <?php echo $card['flipped'] ? 'flipped' : ''; ?>"
+                            onclick="indexFlip(this, <?php echo $index; ?>)">
                             <div class="index-card-inner">
                                 <div class="index-card-front">
                                     <img src="assets/img/pokemon-card-back.png" alt="" class="img-fluid">
                                 </div>
-
                                 <div class="index-card-back">
-                                    <img src="<?php echo $card->image . '/high.png'; ?>" alt="<?php echo $card->name; ?>" class="img-fluid" style="border-radius: 12px;">
+                                    <img src="<?php echo $card['image'] . '/high.png'; ?>" alt="<?php echo $card['name']; ?>" class="img-fluid" style="border-radius: 12px;">
                                 </div>
                             </div>
                         </div>
