@@ -1,0 +1,138 @@
+/* cards */
+#index-gacha .row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 100vw;
+    margin: 0 auto;
+}
+
+.index-card {
+
+  aspect-ratio: 5 / 7;
+  width: 225px;
+  height: auto;
+  perspective: 1000px;
+
+  background-color: transparent;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-50px); 
+  transition: transform 0.3s ease, opacity 0.5s ease;
+}
+
+.index-card-front {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.index-card-front {
+  background-color: #2c3e50;
+  color: white;
+  font-size: 2rem;
+}
+
+.index-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.index-card.flipped .index-card-inner {
+  transform: rotateY(180deg);
+}
+
+.index-card-front,
+.index-card-back {
+  position: absolute;
+
+  width: 100%;
+  height: 100%;
+
+  backface-visibility: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.index-card-back {
+  transform: rotateY(180deg);
+}
+
+/* pseudo-classes */
+.index-card:hover .index-card-inner {
+  transform: translateY(-15px);
+}
+
+.index-card.flipped:hover .index-card-inner {
+    transform: rotateY(180deg) translateY(-15px);
+}
+
+/* animation */
+.slide {
+  animation: indexSlide 0.6s ease forwards;
+  animation-delay: calc(var(--order) * 0.15s);
+}
+
+@keyframes indexSlide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* register */
+#index-gacha {
+    flex-direction: column;
+}
+
+#index-gacha .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#index-register {
+    transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(10px); 
+    z-index: 10;
+    pointer-events: none; 
+}
+
+.index-shift .row {
+    transform: translateY(-50px); 
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#index-register.index-show {
+    display: block !important;
+    opacity: 1 !important;
+    transform: translateY(-10px); 
+    pointer-events: auto; 
+    visibility: visible;
+}
+
+.index-shift .container {
+    transform: translateY(-20px);
+    transition: transform 0.6s ease;
+}
