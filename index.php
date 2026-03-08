@@ -3,7 +3,10 @@
 
 <!-- head -->
 <?php
+
+$style = "index.css";
 include "inc/head.inc.php";
+
 ?>
 
 <body class="text-light">
@@ -64,9 +67,9 @@ include "inc/head.inc.php";
                 <!-- register -->
                 <div id="index-register" class="text-center mt-4 d-none opacity-0">
                     <p class="text-white mb-3">Love your deck?</p>
-                    <a href="register.php">
-                        <button class="btn btn-outline-light btn-lg">Register to Save</button>
-                    </a>
+                        <a href="signup.php">
+                            <button class="btn btn-outline-light btn-lg">Register to Save</button>
+                        </a>
                 </div>
 
             </div>

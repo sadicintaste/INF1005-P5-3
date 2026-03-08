@@ -10,6 +10,10 @@
 
     <!-- external -->
     <link rel="stylesheet" href="css/styles.css"> <!-- universal -->
+    <?php if (isset($style)): ?>                  
+        <link rel="stylesheet" href="css/<?php echo $style; ?>">
+    <?php endif; ?>
+
 
     <!-- javascript -->
     <!-- bootstrap -->
