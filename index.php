@@ -3,7 +3,7 @@
 session_start();
 
 // adjust based on your directory
-require_once '../PHP/vendor/autoload.php';
+require_once 'C:/Users/kenneth/vendor/autoload.php';
 
 // suppress deprecated warnings
 error_reporting(E_ALL & ~E_DEPRECATED);
