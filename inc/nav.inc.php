@@ -36,16 +36,30 @@ $isIn = isset($_SESSION['user_id']);
                 <button class="btn btn-success" type="submit">Search</button>
             </form>
             <ul class="navbar-nav">
+                
+                // Show sign up icon only if user is not signed in
+                <?php if (!$isIn): ?>
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
                         <img src="images/register_icon.png" alt="Sign Up" title="Sign Up" class="nav-icon" />
                     </a>
                 </li>
+                <?php endif; ?>
+
                 <li class="nav-item">
                     <a href="<?php echo $isIn ? 'account.php' : 'signin.php'; ?>" class="nav-link">
                         <img src="images/login_icon.png" alt="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" title="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" class="nav-icon" />
                     </a>
                 </li>
+
+                // Show sign out icon only if user is signed in
+                <?php if ($isIn): ?>
+                <li class="nav-item">
+                    <a href="signout_process.php" class="nav-link">
+                        <img src="images/logout_icon.png" alt="Sign Out" title="Sign Out" class="nav-icon" />
+                    </a>
+                </li>
+                <?php endif; ?>
             </ul>
         </div>
     </div>
