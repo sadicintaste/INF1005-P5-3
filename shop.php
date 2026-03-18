@@ -3,6 +3,16 @@
 
 <!-- head -->
 <?php
+session_start();
+// Check if the user is logged in
+$isIn = isset($_SESSION['user_id']);
+
+if (!$isIn) {
+    // Redirect to login if they try to access the shop while logged out
+    header("Location: signin.php");
+    exit();
+}
+
 include "inc/head.inc.php";
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
@@ -11,6 +21,11 @@ use TCGdex\Query;
 
 $tcgdex = new TCGdex("en");
 ?>
+
+<script>
+    localStorage.setItem('visitedShopToday', 'true');
+    console.log("Shop visit recorded for daily tasks.");
+</script>
 
 <body class="text-light">
 

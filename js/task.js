@@ -1,6 +1,6 @@
 let hasCopiedLink = false; // Internal flag to track if the user has copied the link
 let hasVisitedShop = localStorage.getItem('visitedShopToday') === 'true'; // Check if the user has visited the shop today
-let hasLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Check if the user has logged in today
+// let hasLoggedIn = localStorage.getItem('isLoggedIn') === 'true'; // Check if the user has logged in today
 
 function copyAndVerify() {
     const copyText = document.getElementById("shareUrl");
@@ -23,23 +23,15 @@ function copyAndVerify() {
 }
 
 function claimTask(taskId) {
-    const btn = event.target; // Get the specific button clicked
-
-    // Logic Gate for Login
-    if (taskId === 'login' && !hasLoggedIn) {
-        alert("You must be logged in to claim this reward!");
-        return;
-    }
+    const btn = event.target;
 
     // Logic Gate for Visit Shop
-    if (taskId === 'visit_shop' && !hasVisitedShop) {
+    if (taskId === 'visit_shop' && localStorage.getItem('visitedShopToday') !== 'true') {
         alert("You must visit the shop page first!");
-        // Optional: Automatically redirect them
-        // window.location.href = 'shop.php'; 
         return;
     }
 
-    // Logic Gate for Spread Social (Existing)
+    // Logic Gate for Spread Social
     if (taskId === 'share_social' && !hasCopiedLink) {
         alert("Please copy the URL first!");
         return;
@@ -50,22 +42,17 @@ function claimTask(taskId) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `task_id=${taskId}`
     })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                btn.innerText = "Claimed!";
-                btn.disabled = true;
-                btn.classList.replace('btn-success', 'btn-secondary');
-
-                // Clear the local flag after claiming
-                if (taskId === 'visit_shop') {
-                    localStorage.removeItem('visitedShopToday');
-                }
-                alert(`Success! You earned ${data.new_points} points.`);
-            } else {
-                alert("Error: " + data.message);
-            }
-        });
+    .then(response => response.json()) // Works because of the JSON header in PHP
+    .then(data => {
+        if (data.success) {
+            btn.innerText = "Claimed!";
+            btn.disabled = true;
+            btn.classList.replace('btn-success', 'btn-secondary');
+            alert(`Success! You earned ${data.new_points} points.`);
+        } else {
+            alert("Error: " + data.message);
+        }
+    });
 }
 
 // Add this script to the login page to set the login flag when the user logs in successfully

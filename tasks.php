@@ -1,8 +1,12 @@
 <?php
+session_start();
 include 'inc/db_connect.php';
 
-// Check if user is logged in, if not redirect to signin page
-if (!isset($_SESSION['user_id'])) {
+// Check if the user is logged in
+$isIn = isset($_SESSION['user_id']);
+
+if (!$isIn) {
+    // Redirect to login if they try to access tasks while logged out
     header("Location: signin.php");
     exit();
 }
