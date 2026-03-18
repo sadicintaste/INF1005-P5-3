@@ -1,10 +1,11 @@
 <!-- tcg -->
 <?php
 session_start();
+$isIn = isset($_SESSION['user_id']);
 
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
-
+ 
 // suppress deprecated warnings
 error_reporting(E_ALL & ~E_DEPRECATED);
 
@@ -80,9 +81,15 @@ include "inc/head.inc.php";
                 <!-- register -->
                 <div id="index-register" class="text-center mt-4 d-none opacity-0">
                     <p class="text-white mb-3">Love your deck?</p>
-                    <a href="signup.php">
-                        <button class="btn btn-outline-light btn-lg">Register to Save</button>
-                    </a>
+                    <?php if ($isIn): ?> 
+                        <a href="account.php"> 
+                            <button class="btn btn-outline-light btn-lg">Save to Collection</button> 
+                        </a> 
+                    <?php else: ?> 
+                        <a href="signup.php"> 
+                            <button class="btn btn-outline-light btn-lg">Register to Save</button> 
+                        </a> 
+                    <?php endif; ?>
                 </div>
 
             </div>

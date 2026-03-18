@@ -20,6 +20,8 @@ window.addEventListener('load', () => {
                 card.classList.add('slide');
             });
 
+            allFlipped();
+
         }, 500);
     }, 500);
 });

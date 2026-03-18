@@ -10,7 +10,7 @@
 
     <!-- external -->
     <link rel="stylesheet" href="css/styles.css"> <!-- universal -->
-    <?php if (isset($style)): ?>                  
+    <?php if (isset($style)): ?>
         <link rel="stylesheet" href="css/<?php echo $style; ?>">
     <?php endif; ?>
 
@@ -23,4 +23,7 @@
 
     <!-- external -->
     <script defer src="js/main.js"></script>
+
+    <!-- fontawesome -->
+    <script src="https://kit.fontawesome.com/1287cb4aac.js" crossorigin="anonymous"></script>
 </head>
