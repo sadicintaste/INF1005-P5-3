@@ -1,26 +1,36 @@
-html,
-body {
-  min-height: 100%;
-}
-
 body {
   /* background: linear-gradient(#131313, #240b42); */
   background-size: cover;
   background-repeat: no-repeat;
   min-height: 100vh;
   margin: 0;
-  display: -ms-flexbox;
-  display: -webkit-box;
-  display: flex;
-  -ms-flex-align: center;
-  -ms-flex-pack: center;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
   justify-content: center;
   padding-top: 40px;
   padding-bottom: 40px;
+  display: flex;
   color: black;
+}
+
+.signin-body main {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+.back-home-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 1000;
+  border-width: 2px;
+  text-decoration: none;
+}
+
+.back-home-btn:hover {
+  color: #2a0a4a;
 }
 
 .form-signin {
@@ -34,9 +44,6 @@ body {
     width: 100%;
     font-size: small;
     text-align: left;
-}
-.form-signin .checkbox, .form-signup .checkbox {
-  font-weight: 400;
 }
 .form-signin .form-control, .form-signup .form-control {
   position: relative;

@@ -23,7 +23,8 @@ $oldInput = $_SESSION['signin_old_input'] ?? ['email' => ''];
 unset($_SESSION['signin_old_input']);
 ?>
 
-<body class="text-center">
+<body class="text-center signin-body">
+  <a href="index.php" class="back-home-btn">&larr; Back to Home</a>
   <main>
     <form class="form-signin" action="signin_process.php" method="post">
        <img class="mb-4" src="images/mintmint_logo.png" alt="Placeholder" title="Placeholder Logo" height="72" />
@@ -50,7 +51,7 @@ unset($_SESSION['signin_old_input']);
       <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
       
     </form>
-    <p class="mt-3">Don't have an account? <a href="signup.php">Sign up here</a></p>
+    <p class="mt-3">Don't have an account? <a href="signup.php">Sign up &#8594;</a></p>
   </main>
   </body>
 </html>

@@ -26,7 +26,7 @@ $oldInput = $_SESSION['signup_old_input'] ?? ['username' => '', 'email' => ''];
 unset($_SESSION['signup_old_input']);
 ?>
 
-<body style="display: block; padding: 0;">
+<body class="signup-body" style="display: block; padding: 0;">
   <main class="container-fluid">
     <div class="row min-vh-100">
 
