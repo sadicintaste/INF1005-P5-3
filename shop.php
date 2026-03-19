@@ -3,6 +3,17 @@
 
 <!-- head -->
 <?php
+session_start();
+// Check if the user is logged in
+$isIn = isset($_SESSION['user_id']);
+$user_id = $_SESSION['user_id'];
+
+if (!$isIn || False) {
+    // Redirect to login if they try to access the shop while logged out
+    header("Location: signin.php");
+    exit();
+}
+
 include "inc/head.inc.php";
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
@@ -10,7 +21,28 @@ use TCGdex\TCGdex;
 use TCGdex\Query;
 
 $tcgdex = new TCGdex("en");
+
+include_once "inc/db_connect.php";
+$user_points = 5000; // Default for local testing without DB
+try {
+    $conn = DBConnect::connect();
+    $stmt = $conn->prepare("SELECT points FROM User WHERE user_id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $user_points = $row['points'];
+    }
+    $stmt->close();
+} catch (Exception $e) {
+    // Handle error if needed
+}
 ?>
+
+<script>
+    localStorage.setItem('visitedShopToday', 'true');
+    console.log("Shop visit recorded for daily tasks.");
+</script>
 
 <body class="text-light">
 
@@ -54,6 +86,14 @@ $tcgdex = new TCGdex("en");
                         </form>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- points display section -->
+        <section class="py-3 bg-dark">
+            <div class="container text-center">
+                <h4 class="text-warning mb-0">Total Points: <span
+                        id="user-points-display"><?php echo htmlspecialchars($user_points); ?></span></h4>
             </div>
         </section>
 
@@ -142,9 +182,9 @@ $tcgdex = new TCGdex("en");
                         }
                         ?>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
-                            <div class="card bg-dark text-light h-100 position-relative"
-                                style="border: 2px solid <?php echo $quality_color; ?>; box-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60; transition: transform 0.2s, box-shadow 0.2s;"
-                                onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.7), 0 0 25px <?php echo $quality_color; ?>90';"
+                            <div class="card bg-dark text-light h-100 position-relative p-2"
+                                style="border: 4px solid <?php echo $quality_color; ?>; box-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60; transition: transform 0.2s, box-shadow 0.2s;"
+                                onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 8px 16px rgba(0,0,0,0.7), 0 0 35px 5px <?php echo $quality_color; ?>';"
                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60';">
                                 <img src="<?php echo $c["image"]; ?>" class="card-img-top w-100" alt="Card Image">
                                 <div class="card-body d-flex flex-column text-center p-3">
@@ -156,7 +196,8 @@ $tcgdex = new TCGdex("en");
                                         </span>
                                     </div>
                                     <p class="card-text text-warning fw-bold fs-5 mb-3">
-                                        $<?php echo number_format($c["cost"], 2); ?></p>
+                                        <?php echo $c["cost"]; ?>
+                                    </p>
                                     <div
                                         class="mt-auto d-flex align-items-center justify-content-between pt-3 border-top border-secondary">
                                         <div class="d-flex align-items-center bg-secondary rounded px-1">
@@ -168,7 +209,7 @@ $tcgdex = new TCGdex("en");
                                                 onclick="increment('<?php echo $c['id']; ?>')">+</button>
                                         </div>
                                         <button class="btn btn-success fw-bold px-3 py-1"
-                                            onclick="buyCard('<?php echo $c['id']; ?>', this)">Buy</button>
+                                            onclick="buyCard('<?php echo $c['id']; ?>', this, <?php echo $user_id; ?>)">Buy</button>
                                     </div>
                                 </div>
                             </div>
@@ -213,9 +254,11 @@ $tcgdex = new TCGdex("en");
             qElem.textContent = qty;
         }
 
-        function buyCard(cardId, btn) {
+        function buyCard(cardId, btn, userId) {
+
             const qElem = document.getElementById('quantity-' + cardId);
             let qty = 1;
+            let baseValue = 0.5000000000000000;
             if (qElem) {
                 qty = parseInt(qElem.textContent, 10);
                 if (isNaN(qty) || qty < 1) qty = 1;
@@ -232,8 +275,10 @@ $tcgdex = new TCGdex("en");
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
+                    user_id: userId,
                     card_id: cardId,
-                    quantity: qty
+                    quantity: qty,
+                    baseValue: baseValue
                 })
             })
                 .then(response => response.json())
@@ -243,6 +288,10 @@ $tcgdex = new TCGdex("en");
 
                     if (data.success) {
                         alert(data.message + '\nNew Points Balance: ' + data.new_points);
+                        const pointsDisplay = document.getElementById('user-points-display');
+                        if (pointsDisplay) {
+                            pointsDisplay.textContent = data.new_points;
+                        }
                     } else {
                         alert('Purchase Failed: ' + data.message);
                     }

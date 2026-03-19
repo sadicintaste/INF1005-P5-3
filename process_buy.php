@@ -12,11 +12,12 @@ if (!isset($data['card_id']) || !isset($data['quantity'])) {
     exit;
 }
 
-$user_id = 1; // Currently hardcoded to 1 for testing as requested
+$user_id = $data['user_id']; // Currently hardcoded to 1 for testing as requested
 $card_id = $data['card_id'];
-$quantity = max(1, (int)$data['quantity']);
+$quantity = max(1, (int) $data['quantity']);
 
-function get_deterministic_quality($card_id) {
+function get_deterministic_quality($card_id)
+{
     $qualities = ['Common', 'Rare', 'Epic', 'Legendary'];
     $hash = crc32($card_id);
     return $qualities[$hash % 4];
@@ -24,12 +25,13 @@ function get_deterministic_quality($card_id) {
 
 $quality_costs = ['common' => 10, 'rare' => 25, 'epic' => 50, 'legendary' => 100];
 $quality = get_deterministic_quality($card_id);
+$baseValue = $data['baseValue'];
 $cost_per_card = $quality_costs[strtolower($quality)];
 $total_cost = $cost_per_card * $quantity;
 
 try {
     $conn = DBConnect::connect();
-    
+
     // Start transaction
     $conn->begin_transaction();
 
@@ -61,7 +63,7 @@ try {
     $stmt = $conn->prepare("INSERT INTO User_Inventory (user_id, card_id, quality_value) VALUES (?, ?, ?)");
     for ($i = 0; $i < $quantity; $i++) {
         // use bind_param with 'iss' treating quality_value as a string for now, to support actual quality names
-        $stmt->bind_param("iss", $user_id, $card_id, $quality); 
+        $stmt->bind_param("iss", $user_id, $card_id, $baseValue);
         $stmt->execute();
     }
     $stmt->close();
@@ -70,8 +72,8 @@ try {
     DBConnect::close();
 
     echo json_encode([
-        'success' => true, 
-        'new_points' => $new_points, 
+        'success' => true,
+        'new_points' => $new_points,
         'message' => "Successfully purchased {$quantity}x {$quality} card(s)!"
     ]);
 
