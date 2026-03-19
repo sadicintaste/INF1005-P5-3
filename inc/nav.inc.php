@@ -72,7 +72,10 @@ if ($isIn) {
             <ul class="navbar-nav align-items-lg-center gap-lg-2 nav-actions">
                 <?php if (!$isIn): ?>
                     <li class="nav-item">
-                        <a href="signin.php" class="btn btn-outline-light btn-signin-glass">Sign In</a>
+                        <a href="signin.php" class="btn signin-btn">Sign In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="signup.php" class="btn btn-outline-light">Sign Up</a>
                     </li>
                 <?php endif; ?>
 

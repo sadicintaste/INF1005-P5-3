@@ -94,6 +94,13 @@ body {
   font-weight: 600;
 }
 
+.signin-btn {
+  color: #bdbdbd;
+}
+
+.signin-btn:hover {
+  color: white;
+}
 
 
 @media (max-width: 991.98px) {
