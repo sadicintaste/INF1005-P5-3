@@ -37,7 +37,7 @@ $isIn = isset($_SESSION['user_id']);
             </form>
             <ul class="navbar-nav">
                 
-                // Show sign up icon only if user is not signed in
+                 <!-- Show sign up icon only if user is not signed in -->
                 <?php if (!$isIn): ?>
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
@@ -52,11 +52,11 @@ $isIn = isset($_SESSION['user_id']);
                     </a>
                 </li>
 
-                // Show sign out icon only if user is signed in
+                <!-- Show sign out icon only if user is signed in -->
                 <?php if ($isIn): ?>
                 <li class="nav-item">
                     <a href="signout_process.php" class="nav-link">
-                        <img src="images/logout_icon.png" alt="Sign Out" title="Sign Out" class="nav-icon" />
+                        <p style="color: white; margin: 0;">Sign Out</p>
                     </a>
                 </li>
                 <?php endif; ?>
