@@ -20,22 +20,21 @@ include "inc/account-head.inc.php";
             <h1 class="h3 font-weight-normal">Sign up for MintMint</h1>
           </div>
 
-          <form class="form-signup">
-            <!-- <form action="login_process.php" method="post"> -->
+          <form class="form-signup" action="signup_process.php" method="post">
             <label for="inputusername">Username*</label>
-            <input type="text" id="inputusername" class="form-control" placeholder="Username" required autofocus>
+            <input type="text" id="inputusername" name="username" class="form-control" placeholder="Username" required autofocus>
 
             <label for="inputEmail">Email address*</label>
-            <input type="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
 
             <label for="inputPassword">Password*</label>
-            <input type="password" id="inputPassword" class="form-control" placeholder="Password" required>
+            <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
             <p class="form-text text-muted" style="font-size: smaller;">
               Password should be at least 15 characters OR at least 8 characters including a number and a lowercase letter.
             </p>
 
             <label for="inputConfirmPassword">Confirm Password*</label>
-            <input type="password" id="inputConfirmPassword" class="form-control" placeholder="Confirm Password" required>
+            <input type="password" id="inputConfirmPassword" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
 
             <!-- <div class="checkbox mb-3 mt-2">
               <label>

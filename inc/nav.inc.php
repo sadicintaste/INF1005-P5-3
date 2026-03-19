@@ -40,8 +40,8 @@ $isIn = isset($_SESSION['user_id']);
                  <!-- Show sign up icon only if user is not signed in -->
                 <?php if (!$isIn): ?>
                 <li class="nav-item">
-                    <a href="signup.php" class="nav-link">
-                        <p class="btn btn-outline-light" style="color: white; margin: 0;">Sign Up</p>
+                    <a href="signin.php" class="nav-link">
+                        <p class="btn btn-outline-light" style="color: white; margin: 0;">Sign In</p>
                     </a>
                 </li>
                 <?php endif; ?>
