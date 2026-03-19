@@ -41,19 +41,19 @@ $isIn = isset($_SESSION['user_id']);
                 <?php if (!$isIn): ?>
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
-                        <p class="btn btn-outline-primary" style="color: white; margin: 0;">Sign Up</p>
+                        <p class="btn btn-outline-light" style="color: white; margin: 0;">Sign Up</p>
                     </a>
                 </li>
                 <?php endif; ?>
 
+                <!-- Show sign out icon only if user is signed in -->
+                <?php if ($isIn): ?>
                 <li class="nav-item">
                     <a href="<?php echo $isIn ? 'account.php' : 'signin.php'; ?>" class="nav-link">
                         <img src="images/account_icon.png" alt="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" title="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" class="nav-icon" />
                     </a>
-                </li>
+                </li>    
 
-                <!-- Show sign out icon only if user is signed in -->
-                <?php if ($isIn): ?>
                 <li class="nav-item">
                     <a href="signout_process.php" class="nav-link">
                         <p class="btn btn-outline-danger" style="color: white; margin: 0;">Sign Out</p>
