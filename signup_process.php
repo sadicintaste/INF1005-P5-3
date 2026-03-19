@@ -2,6 +2,17 @@
 session_start();
 require_once './inc/db_connect.php';
 
+function redirectWithError($errorCode, $username, $email)
+{
+    $_SESSION['signup_old_input'] = [
+        'username' => $username,
+        'email' => $email
+    ];
+
+    header('Location: signup.php?error=' . urlencode($errorCode));
+    exit();
+}
+
 function isValidPassword($password)
 {
     if (strlen($password) >= 15) {
@@ -24,23 +35,19 @@ $password = $_POST['password'] ?? '';
 $confirmPassword = $_POST['confirm_password'] ?? '';
 
 if ($username === '' || $email === '' || $password === '' || $confirmPassword === '') {
-    header('Location: signup.php?error=missing_fields');
-    exit();
+    redirectWithError('missing_fields', $username, $email);
 }
 
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    header('Location: signup.php?error=invalid_email');
-    exit();
+    redirectWithError('invalid_email', $username, $email);
 }
 
 if ($password !== $confirmPassword) {
-    header('Location: signup.php?error=password_mismatch');
-    exit();
+    redirectWithError('password_mismatch', $username, $email);
 }
 
 if (!isValidPassword($password)) {
-    header('Location: signup.php?error=weak_password');
-    exit();
+    redirectWithError('weak_password', $username, $email);
 }
 
 try {
@@ -53,8 +60,7 @@ try {
 
     if ($existingUser && $existingUser->num_rows > 0) {
         $checkStmt->close();
-        header('Location: signup.php?error=account_exists');
-        exit();
+        redirectWithError('account_exists', $username, $email);
     }
     $checkStmt->close();
 
@@ -65,8 +71,7 @@ try {
 
     if (!$insertStmt->execute()) {
         $insertStmt->close();
-        header('Location: signup.php?error=insert_failed');
-        exit();
+        redirectWithError('insert_failed', $username, $email);
     }
 
     $newUserId = $insertStmt->insert_id;
@@ -74,11 +79,11 @@ try {
 
     $_SESSION['user_id'] = $newUserId;
     $_SESSION['username'] = $username;
+    unset($_SESSION['signup_old_input']);
 
     header('Location: index.php');
     exit();
 } catch (Exception $e) {
-    header('Location: signup.php?error=server_error');
-    exit();
+    redirectWithError('server_error', $username, $email);
 }
 ?>

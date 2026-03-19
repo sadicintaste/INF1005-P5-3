@@ -1,7 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+session_start();
 include "inc/account-head.inc.php";
+
+$errorMessages = [
+  'missing_fields' => 'Please fill in all required fields.',
+  'invalid_email' => 'Please enter a valid email address.',
+  'password_mismatch' => 'Password and confirm password do not match.',
+  'weak_password' => 'Password must be at least 15 characters, or at least 8 characters with a number and a lowercase letter.',
+  'account_exists' => 'An account with this username or email already exists.',
+  'insert_failed' => 'Unable to create your account. Please try again.',
+  'server_error' => 'A server error occurred. Please try again later.'
+];
+
+$successMessages = [
+  'signed_up' => 'Your account has been created successfully.'
+];
+
+$errorCode = $_GET['error'] ?? null;
+$errorMessage = ($errorCode && isset($errorMessages[$errorCode])) ? $errorMessages[$errorCode] : null;
+$successCode = $_GET['success'] ?? null;
+$successMessage = ($successCode && isset($successMessages[$successCode])) ? $successMessages[$successCode] : null;
+$oldInput = $_SESSION['signup_old_input'] ?? ['username' => '', 'email' => ''];
+unset($_SESSION['signup_old_input']);
 ?>
 
 <body style="display: block; padding: 0;">
@@ -20,12 +42,24 @@ include "inc/account-head.inc.php";
             <h1 class="h3 font-weight-normal">Sign up for MintMint</h1>
           </div>
 
+          <?php if ($successMessage): ?>
+            <div class="alert alert-success" role="alert">
+              <?php echo htmlspecialchars($successMessage); ?>
+            </div>
+          <?php endif; ?>
+
+          <?php if ($errorMessage): ?>
+            <div class="alert alert-danger" role="alert">
+              <?php echo htmlspecialchars($errorMessage); ?>
+            </div>
+          <?php endif; ?>
+
           <form class="form-signup" action="signup_process.php" method="post">
             <label for="inputusername">Username*</label>
-            <input type="text" id="inputusername" name="username" class="form-control" placeholder="Username" required autofocus>
+            <input type="text" id="inputusername" name="username" class="form-control" placeholder="Username" value="<?php echo htmlspecialchars($oldInput['username']); ?>" required autofocus>
 
             <label for="inputEmail">Email address*</label>
-            <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" required autofocus>
+            <input type="email" id="inputEmail" name="email" class="form-control" placeholder="Email address" value="<?php echo htmlspecialchars($oldInput['email']); ?>" required autofocus>
 
             <label for="inputPassword">Password*</label>
             <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
