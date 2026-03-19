@@ -41,14 +41,14 @@ $isIn = isset($_SESSION['user_id']);
                 <?php if (!$isIn): ?>
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
-                        <img src="images/register_icon.png" alt="Sign Up" title="Sign Up" class="nav-icon" />
+                        <img src="images/login_icon.png" alt="Sign Up" title="Sign Up" class="nav-icon" />
                     </a>
                 </li>
                 <?php endif; ?>
 
                 <li class="nav-item">
                     <a href="<?php echo $isIn ? 'account.php' : 'signin.php'; ?>" class="nav-link">
-                        <img src="images/login_icon.png" alt="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" title="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" class="nav-icon" />
+                        <img src="images/account_icon.png" alt="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" title="<?php echo $isIn ? 'Account' : 'Sign In'; ?>" class="nav-icon" />
                     </a>
                 </li>
 
