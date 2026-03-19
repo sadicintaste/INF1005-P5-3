@@ -5,19 +5,18 @@
 <?php
 session_start();
 // Check if the user is logged in
-//$isIn = isset($_SESSION['user_id']);
-//$user_id = $_SESSION['user_id'];
+$isIn = isset($_SESSION['user_id']);
+$user_id = $_SESSION['user_id'];
 
-//if (!$isIn || False) {
-// Redirect to login if they try to access the shop while logged out
-//header("Location: signin.php");
-//exit();
-//}
+if (!$isIn || False) {
+    // Redirect to login if they try to access the shop while logged out
+    header("Location: signin.php");
+    exit();
+}
 
 include "inc/head.inc.php";
 // adjust based on your directory
-//require_once __DIR__ . '/vendor/autoload.php';
-require_once 'C:\Users\kenneth\vendor\autoload.php';
+require_once __DIR__ . '/vendor/autoload.php';
 use TCGdex\TCGdex;
 use TCGdex\Query;
 
