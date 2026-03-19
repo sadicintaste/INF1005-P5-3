@@ -29,6 +29,14 @@ body {
   align-items: center;
 }
 
+.nav-btn{
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border-radius: 10px;
+  border-color: white;
+}
 .loader-stack {
   position: relative;
 

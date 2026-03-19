@@ -41,7 +41,7 @@ $isIn = isset($_SESSION['user_id']);
                 <?php if (!$isIn): ?>
                 <li class="nav-item">
                     <a href="signup.php" class="nav-link">
-                        <img src="images/login_icon.png" alt="Sign Up" title="Sign Up" class="nav-icon" />
+                        <p class="nav-btn" style="color: white; margin: 0;">Sign Up</p>
                     </a>
                 </li>
                 <?php endif; ?>
@@ -56,7 +56,7 @@ $isIn = isset($_SESSION['user_id']);
                 <?php if ($isIn): ?>
                 <li class="nav-item">
                     <a href="signout_process.php" class="nav-link">
-                        <p style="color: white; margin: 0;">Sign Out</p>
+                        <p class="nav-btn" style="color: white; margin: 0;">Sign Out</p>
                     </a>
                 </li>
                 <?php endif; ?>
