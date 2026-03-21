@@ -2,17 +2,15 @@
 session_start();
 include 'inc/db_connect.php';
 
-// Check if the user is logged in
 $isIn = isset($_SESSION['user_id']);
 
 if (!$isIn) {
-    // Redirect to login if they try to access tasks while logged out
     header("Location: signin.php");
     exit();
 }
 
-$userId = $_SESSION['user_id']; // Use the real ID from session
-$userName = $_SESSION['username']; // Use the real name from session
+$userId = $_SESSION['user_id'];
+$userName = $_SESSION['username'];
 
 
 try {
@@ -136,6 +134,10 @@ try {
             </div>
         </div>
     </div>
+
+    <script>
+        const CURRENT_USER_ID = "<?php echo $userId; ?>";
+    </script>
 
     <script src="js/task.js"></script>
 

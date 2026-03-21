@@ -2,6 +2,6 @@
 session_start();
 $_SESSION = [];
 session_destroy();
-header("Location: signin.php?success=signed_out");
+header("Location: index.php?success=signed_out");
 exit();
 ?>

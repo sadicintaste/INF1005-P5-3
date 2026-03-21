@@ -1,6 +1,6 @@
 <?php
 session_start();
-header('Content-Type: application/json'); // Tells JS to expect JSON
+header('Content-Type: application/json');
 require_once '../inc/db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
@@ -17,7 +17,6 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $task = $_POST['task_id'] ?? '';
 
-        // Verify if already completed
         $checkStmt = $conn->prepare("SELECT task_id FROM Tasks WHERE user_id = ? AND task_identifier = ? AND completed_at = ?");
         $checkStmt->bind_param("iss", $userId, $task, $today);
         $checkStmt->execute();
@@ -32,7 +31,6 @@ try {
         if (array_key_exists($task, $pointsTable)) {
             $pointsToAdd = $pointsTable[$task];
 
-            // Update the 'User' table (matching your capitalized schema)
             $updateStmt = $conn->prepare("UPDATE User SET points = points + ? WHERE user_id = ?");
             $updateStmt->bind_param("ii", $pointsToAdd, $userId);
 

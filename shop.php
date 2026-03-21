@@ -40,8 +40,16 @@ try {
 ?>
 
 <script>
-    localStorage.setItem('visitedShopToday', 'true');
-    console.log("Shop visit recorded for daily tasks.");
+    // 1. Get the User ID from PHP
+    const CURRENT_USER_ID = "<?php echo $user_id; ?>";
+    
+    // 2. Create the unique key for this specific user
+    const shopKey = `visitedShop_user_${CURRENT_USER_ID}`;
+    
+    // 3. Store the visit in sessionStorage (clears when tab closes)
+    sessionStorage.setItem(shopKey, 'true');
+    
+    console.log("Shop visit recorded for User ID: " + CURRENT_USER_ID);
 </script>
 
 <body class="text-light">
