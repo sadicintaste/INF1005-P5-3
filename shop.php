@@ -17,6 +17,7 @@ if (!$isIn || False) {
 include "inc/head.inc.php";
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
+
 use TCGdex\TCGdex;
 use TCGdex\Query;
 
@@ -40,16 +41,16 @@ try {
 ?>
 
 <script>
-    // 1. Get the User ID from PHP
     const CURRENT_USER_ID = "<?php echo $user_id; ?>";
-    
-    // 2. Create the unique key for this specific user
+    const today = new Date().toISOString().split('T')[0]; // Format: YYYY-MM-DD
     const shopKey = `visitedShop_user_${CURRENT_USER_ID}`;
-    
-    // 3. Store the visit in sessionStorage (clears when tab closes)
-    sessionStorage.setItem(shopKey, 'true');
-    
-    console.log("Shop visit recorded for User ID: " + CURRENT_USER_ID);
+
+    // Store an object containing the status and the date
+    const data = {
+        status: 'true',
+        date: today
+    };
+    sessionStorage.setItem(shopKey, JSON.stringify(data));
 </script>
 
 <body class="text-light">
@@ -117,7 +118,7 @@ try {
                     $quality_filters = isset($_GET['quality']) ? $_GET['quality'] : $qualities;
                     $page = isset($_GET['page']) ? max(1, (int) $_GET['page']) : 1;
                     $limit = 12; // Cards per page
-                    
+
                     // Build the TCGdex Query
                     $query = Query::create();
 
@@ -188,7 +189,7 @@ try {
                                 $quality_color = '#ffca28';
                                 break; // Gold
                         }
-                        ?>
+                    ?>
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                             <div class="card bg-dark text-light h-100 position-relative p-2"
                                 style="border: 4px solid <?php echo $quality_color; ?>; box-shadow: 0 4px 8px rgba(0,0,0,0.5), 0 0 15px <?php echo $quality_color; ?>60; transition: transform 0.2s, box-shadow 0.2s;"
@@ -278,17 +279,17 @@ try {
             btn.disabled = true;
 
             fetch('process_buy.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    user_id: userId,
-                    card_id: cardId,
-                    quantity: qty,
-                    baseValue: baseValue
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        user_id: userId,
+                        card_id: cardId,
+                        quantity: qty,
+                        baseValue: baseValue
+                    })
                 })
-            })
                 .then(response => response.json())
                 .then(data => {
                     btn.textContent = originalText;

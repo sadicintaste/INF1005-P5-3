@@ -1,0 +1,41 @@
+.game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 15px;
+    max-width: 600px; /* Slightly smaller to fit 4-up better on mobile */
+    margin: 30px auto;
+}
+
+.memory-card {
+    aspect-ratio: 2/3;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.5s;
+    cursor: pointer;
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg);
+}
+
+.front-face, .back-face {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    backface-visibility: hidden; /* This MUST be on both */
+    border-radius: 8px;
+    border: 2px solid #34495e;
+}
+
+.front-face {
+    transform: rotateY(180deg); /* The image starts rotated away */
+    object-fit: contain;
+    background-color: #1a1a1a;
+}
+
+.back-face {
+    background: linear-gradient(45deg, #1a1a1a, #333);
+    /* No rotateY here, it's the default face */
+}

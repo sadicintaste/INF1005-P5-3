@@ -6,43 +6,7 @@ $inventory = [];
 $errorMsg = "";
 $success = true;
 
-function getUserDetails($user_id)
-{
-    global $errorMsg, $success, $username, $email, $points;
-    // Create database connection.
-    $conn = DBConnect::connect();
-    // Prepare the statement:
-    $stmt = $conn->prepare("SELECT username, email, points FROM User
-                                            WHERE user_id = ?");
-    // Bind & execute the query statement:
-    if (!$stmt) {
-        $errorMsg = "Prepare failed: (" . $conn->errno . ") " .
-            $conn->error;
-        $success = false;
-    } else {
-        $stmt->bind_param("i", $user_id);
-        if (!$stmt->execute()) {
-            $errorMsg = "Execute failed: (" . $stmt->errno . ") " .
-                $stmt->error;
-            $success = false;
-        } else {
-            $result = $stmt->get_result();
-            if (!$result) {
-                $errorMsg = "Get result failed: (" . $stmt->errno . ") " .
-                    $stmt->error;
-                $success = false;
-            } elseif ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                $username = $row['username'];
-                $email = $row['email'];
-                $points = $row['points'];
-                $stmt->close();
-            } else {
-                return null;
-            }
-        }
-    }
-}
+
 function getUserInventory($user_id)
 {
 
@@ -115,23 +79,38 @@ error_reporting(E_ALL & ~E_DEPRECATED);
                         <div class="card bg-dark text-light">
                             <div class="card-body">
                                 <?php
-                                if (!$isIn) {
-                                    echo "<p class='text-danger'>You must be logged in to view your account details.</p>";
+                                try {
+                                    if (!$isIn) {
+                                        throw new Exception("You must be logged in to view your account details.");
+                                    }
+
+                                    $user_id = (int)$_SESSION['user_id'];
+                                    $user = DBConnect::getUserDetails($user_id);
+
+                                    if ($user === null) {
+                                        $errorMsg = "User not found.";
+                                        $success = false;
+                                    } else {
+                                        $username = $user['username'];
+                                        $email = $user['email'];
+                                        $points = $user['points'];
+                                        $success = true;
+                                    }
+                                } catch (Exception $e) {
+                                    $errorMsg = $e->getMessage();
                                     $success = false;
-                                } else {
-                                    $user_id = $_SESSION['user_id'];
                                 }
-                                getUserDetails($user_id);
                                 if ($success) { ?>
                                     <h5 class='card-title'>Username: <span class='text-primary'> <?php echo $username; ?></span></h5>
                                     <p class='card-text'>Email: <span class='text-primary'><?php echo $email; ?></span></p>
                                     <p class='card-text'>Points: <span class='text-primary'><?php echo $points; ?></span></p>
+                                    <div class="btn-container mt-4 text-center">
+                                        <a href="signout_process.php" class="btn btn-outline-danger ms-2">Sign Out</a>
+                                        <a href="account_settings.php" class="btn btn-outline-light ms-2">Account Settings</a>
+                                    </div>
                                 <?php } else { ?>
-                                    <p class='text-danger'>Error fetching user details: <?php echo $errorMsg; ?></p>
+                                    <p class='text-danger text-center'>Error fetching user details: <?php echo $errorMsg; ?></p>
                                 <?php } ?>
-                                <div class="signout-btn-container mt-4 text-center">
-                                    <a href="signout_process.php" class="btn btn-outline-danger">Sign Out</a>
-                                </div>  
                             </div>
                         </div>
                     </div>
@@ -142,28 +121,34 @@ error_reporting(E_ALL & ~E_DEPRECATED);
         <section class="py-5">
             <div class="container">
                 <h2 class="text-center mb-4">My Inventory</h2>
-                
+
                 <?php
                 $inventory = getUserInventory($user_id);
                 DBConnect::close();
-                
+
                 if ($success && !empty($inventory)) { ?>
                     <div class="row g-4">
                         <?php foreach ($inventory as $item) {
                             $card = $tcgdex->card->get($item['card_id']);
                             $float = $item['quality_value'];
-                            // Use deterministic quality based on card ID
                             $qualities = ['Common', 'Rare', 'Epic', 'Legendary'];
                             $hash = crc32($card->id);
                             $quality = $qualities[$hash % 4];
-                            
-                            // Set quality color
+
                             $quality_color = '';
                             switch (strtolower($quality)) {
-                                case 'common': $quality_color = '#b0bec5'; break;
-                                case 'rare': $quality_color = '#29b6f6'; break;
-                                case 'epic': $quality_color = '#ab47bc'; break;
-                                case 'legendary': $quality_color = '#ffca28'; break;
+                                case 'common':
+                                    $quality_color = '#b0bec5';
+                                    break;
+                                case 'rare':
+                                    $quality_color = '#29b6f6';
+                                    break;
+                                case 'epic':
+                                    $quality_color = '#ab47bc';
+                                    break;
+                                case 'legendary':
+                                    $quality_color = '#ffca28';
+                                    break;
                             }
                         ?>
                             <div class="col-12 col-sm-6 col-md-4 col-lg-3">

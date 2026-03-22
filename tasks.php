@@ -98,11 +98,18 @@ try {
                             <?php endif; ?>
                         </button>
                     </div>
-
                     <div class="list-group-item d-flex justify-content-between align-items-center">
                         <div>
                             <h5 class="mb-1">Play a game</h5>
                             <p class="mb-1">Complete a mini-game on the site.</p>
+
+                            <?php if (!in_array('play_game', $completedToday)): ?>
+                                <a href="game.php" class="btn btn-sm btn-outline-info mb-2">
+                                    <i class="fa-solid fa-gamepad"></i> Go to Game
+                                </a>
+                                <br>
+                            <?php endif; ?>
+
                             <small class="text-muted">+25 points</small>
                         </div>
                         <button class="btn <?php echo in_array('play_game', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
