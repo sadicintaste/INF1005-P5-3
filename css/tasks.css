@@ -1,0 +1,41 @@
+.task-card {
+    border: 1px solid #333 !important;
+    border-left: 5px solid #00ffcc !important;
+    background: #121212 !important;
+    transition: transform 0.2s;
+}
+
+.task-card .text-muted {
+    color: #b2bec3 !important; 
+    font-weight: 400;
+    letter-spacing: 0.3px;
+    opacity: 1;
+}
+
+.task-title {
+    color: #ffffff;
+    font-weight: 700;
+}
+
+.task-card.task-completed {
+    border-left-color: #6c757d !important;
+    opacity: 0.7;
+}
+
+.reward-badge {
+    background-color: rgba(0, 255, 204, 0.1);
+    color: #00ffcc;
+    border: 1px solid #00ffcc40;
+}
+
+.btn-mint-action {
+    border: 2px solid #00ffcc;
+    color: #00ffcc;
+    background: transparent;
+    font-weight: bold;
+}
+
+.btn-mint-action.completed {
+    border-color: #6c757d;
+    color: #6c757d;
+}

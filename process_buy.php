@@ -25,7 +25,7 @@ function get_deterministic_quality($card_id)
 
 $quality_costs = ['common' => 10, 'rare' => 25, 'epic' => 50, 'legendary' => 100];
 $quality = get_deterministic_quality($card_id);
-$baseValue = $data['baseValue'];
+// $baseValue = $data['baseValue'];
 $cost_per_card = $quality_costs[strtolower($quality)];
 $total_cost = $cost_per_card * $quantity;
 
@@ -62,8 +62,13 @@ try {
     // Depending on schema, we might need a specific format for quality_value
     $stmt = $conn->prepare("INSERT INTO User_Inventory (user_id, card_id, quality_value) VALUES (?, ?, ?)");
     for ($i = 0; $i < $quantity; $i++) {
-        // use bind_param with 'iss' treating quality_value as a string for now, to support actual quality names
-        $stmt->bind_param("iss", $user_id, $card_id, $baseValue);
+        // Generate a secure random float between 0 and 1
+        $randomFactor = mt_rand(0, mt_getrandmax()) / mt_getrandmax();
+
+        // Format to 16 decimal places as a string to ensure precision in the DB
+        $generatedFloat = number_format($randomFactor, 16, '.', '');
+
+        $stmt->bind_param("iss", $user_id, $card_id, $generatedFloat);
         $stmt->execute();
     }
     $stmt->close();
@@ -76,7 +81,6 @@ try {
         'new_points' => $new_points,
         'message' => "Successfully purchased {$quantity}x {$quality} card(s)!"
     ]);
-
 } catch (Exception $e) {
     if (isset($conn) && $conn) {
         $conn->rollback();
@@ -84,4 +88,3 @@ try {
     }
     echo json_encode(['success' => false, 'message' => $e->getMessage()]);
 }
-?>

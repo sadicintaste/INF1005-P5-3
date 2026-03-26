@@ -34,94 +34,76 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php include 'inc/head.inc.php'; ?>
+<?php
+$style = "tasks.css";
+include 'inc/head.inc.php'; ?>
 
 <body>
     <?php include 'inc/nav.inc.php'; ?>
 
-    <div class="container mt-5">
-        <h1 class="text-center mb-4" style="color: white;">Daily Tasks</h1>
-        <p class="text-center mb-5" style="color: white;">Complete these daily tasks to earn in-game points!</p>
+    <?php
+    $totalTasks = 4;
+    $completedCount = count($completedToday);
+    $percentage = ($completedCount / $totalTasks) * 100;
+    ?>
+    <div class="progress mb-5" style="height: 25px; background-color: #1a1a1a; border: 1px solid #333; border-radius: 50px;">
+        <div class="progress-bar" role="progressbar"
+            style="width: <?php echo $percentage; ?>%; background: linear-gradient(90deg, #00ffcc, #0099ff); box-shadow: 0 0 15px #00ffcc80;"
+            aria-valuenow="<?php echo $percentage; ?>" aria-valuemin="0" aria-valuemax="100">
+            <span class="fw-bold text-dark"><?php echo $completedCount; ?>/<?php echo $totalTasks; ?> Complete</span>
+        </div>
+    </div>
+    <h1 class="text-center mb-4" style="color: white;">Daily Tasks</h1>
+    <p class="text-center mb-5" style="color: white;">Complete these daily tasks to earn in-game points!</p>
 
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <div class="list-group">
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Log in to the website</h5>
-                            <p class="mb-1">Sign in to your account today.</p>
-                            <small class="text-muted">+10 points</small>
+    <div class="container">
+        <div class="row g-4">
+            <?php
+            $tasks = [
+                ['id' => 'login', 'title' => 'Log in to MintMint', 'desc' => 'Sign in to your account today.', 'pts' => 10],
+                ['id' => 'visit_shop', 'title' => 'Visit the shop', 'desc' => 'Browse the point shop for rewards.', 'pts' => 15],
+                ['id' => 'share_social', 'title' => 'Spread the word!', 'desc' => 'Share our link with your friends.', 'pts' => 20],
+                ['id' => 'play_game', 'title' => 'Play a game', 'desc' => 'Complete the memory game on the site.', 'pts' => 25],
+            ];
+
+            foreach ($tasks as $t):
+                $isDone = in_array($t['id'], $completedToday);
+            ?>
+                <div class="col-md-6">
+                    <div class="card bg-dark h-100 task-card <?php echo $isDone ? 'task-completed' : ''; ?>">
+                        <div class="card-body d-flex flex-column justify-content-between p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <div>
+                                    <h5 class="task-title mb-1 text-light"><?php echo $t['title']; ?></h5>
+                                    <p class="text-muted small mb-0"><?php echo $t['desc']; ?></p>
+
+                                    <?php if ($t['id'] === 'share_social' && !$isDone): ?>
+                                        <button type="button" class="btn btn-sm btn-outline-primary mt-2" data-bs-toggle="modal" data-bs-target="#shareModal">Get Link</button>
+                                    <?php elseif ($t['id'] === 'play_game' && !$isDone): ?>
+                                        <a href="game.php" class="btn btn-sm btn-outline-info mt-2">Go to Game</a>
+                                    <?php endif; ?>
+                                </div>
+                                <span class="badge rounded-pill reward-badge">+<?php echo $t['pts']; ?> pts</span>
+                            </div>
+
+                            <div class="d-grid mt-auto">
+                                <button id="btn-<?php echo $t['id']; ?>"
+                                    class="btn btn-mint-action <?php echo $isDone ? 'completed' : ''; ?>"
+                                    <?php echo $isDone ? 'disabled' : ''; ?>
+                                    onclick="claimTask('<?php echo $t['id']; ?>')">
+                                    <?php if ($isDone): ?>
+                                        <i class="fa-solid fa-circle-check me-2"></i> Claimed
+                                    <?php else: ?>
+                                        <i class="fa-solid fa-circle-notch fa-spin me-2" style="--fa-animation-duration: 2s;"></i> Complete
+                                    <?php endif; ?>
+                                </button>
+                            </div>
                         </div>
-                        <button id="btn-login"
-                            class="btn <?php echo in_array('login', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
-                            <?php echo in_array('login', $completedToday) ? 'disabled' : ''; ?>
-                            onclick="claimTask('login')">
-                            <i class="fa-solid <?php echo in_array('login', $completedToday) ? 'fa-user-check' : 'fa-right-to-bracket'; ?>"></i>
-                            <?php echo in_array('login', $completedToday) ? 'Claimed' : 'Complete'; ?>
-                        </button>
-                    </div>
-
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Visit the shop</h5>
-                            <p class="mb-1">Browse the point shop for rewards.</p>
-                            <small class="text-muted">+15 points</small>
-                        </div>
-                        <button id="btn-visit-shop"
-                            class="btn <?php echo in_array('visit_shop', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
-                            <?php echo in_array('visit_shop', $completedToday) ? 'disabled' : ''; ?>
-                            onclick="claimTask('visit_shop')">
-                            <i class="fa-solid <?php echo in_array('visit_shop', $completedToday) ? 'fa-bag-shopping' : 'fa-cart-plus'; ?>"></i>
-                            <?php echo in_array('visit_shop', $completedToday) ? 'Claimed' : 'Complete'; ?>
-                        </button>
-                    </div>
-
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Spread the word about MintMint!</h5>
-                            <p class="mb-1">Share our link with your friends!</p>
-
-                            <button type="button" class="btn btn-sm btn-outline-primary mb-2" data-bs-toggle="modal" data-bs-target="#shareModal">
-                                Get Share Link
-                            </button>
-                            <br>
-                            <small class="text-muted">+20 points</small>
-                        </div>
-                        <button id="btn-share-claim"
-                            class="btn <?php echo in_array('share_social', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
-                            <?php echo in_array('share_social', $completedToday) ? 'disabled' : ''; ?>
-                            onclick="claimTask('share_social')">
-                            <?php if (in_array('share_social', $completedToday)): ?>
-                                <i class="fa-solid fa-circle-check fa-bounce" style="--fa-animation-iteration-count: 2;"></i> Claimed
-                            <?php else: ?>
-                                <i class="fa-solid fa-right-to-bracket"></i> Complete
-                            <?php endif; ?>
-                        </button>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <div>
-                            <h5 class="mb-1">Play a game</h5>
-                            <p class="mb-1">Complete a mini-game on the site.</p>
-
-                            <?php if (!in_array('play_game', $completedToday)): ?>
-                                <a href="game.php" class="btn btn-sm btn-outline-info mb-2">
-                                    <i class="fa-solid fa-gamepad"></i> Go to Game
-                                </a>
-                                <br>
-                            <?php endif; ?>
-
-                            <small class="text-muted">+25 points</small>
-                        </div>
-                        <button class="btn <?php echo in_array('play_game', $completedToday) ? 'btn-secondary' : 'btn-success'; ?>"
-                            <?php echo in_array('play_game', $completedToday) ? 'disabled' : ''; ?>
-                            onclick="claimTask('play_game')">
-                            <i class="fa-solid fa-gamepad <?php echo in_array('play_game', $completedToday) ? '' : 'fa-beat'; ?>"></i>
-                            <?php echo in_array('play_game', $completedToday) ? 'Claimed' : 'Complete'; ?>
-                        </button>
                     </div>
                 </div>
-            </div>
+            <?php endforeach; ?>
         </div>
+    </div>
     </div>
     <div class="modal fade" id="shareModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -146,7 +128,7 @@ try {
         const CURRENT_USER_ID = "<?php echo $userId; ?>";
     </script>
 
-    <script src="js/task.js"></script>
+    <script src="js/tasks.js"></script>
 
 </body>
 

@@ -24,8 +24,7 @@ function handleCopySuccess() {
 
     const today = new Date().toISOString().split('T')[0];
     const data = JSON.stringify({ status: 'true', date: today });
-
-    // Use the unique copyKey defined at the top of your file
+    
     sessionStorage.setItem(copyKey, data);
 
     const claimBtn = document.getElementById("btn-share-claim");

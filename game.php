@@ -53,7 +53,6 @@ try {
     </div>
 
     <script>
-        // Use the $userId variable you defined at the top
         const CURRENT_USER_ID = "<?php echo $userId; ?>";
         const cardImages = <?php echo json_encode($gameImages); ?>;
     </script>
