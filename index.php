@@ -1,19 +1,26 @@
 <!-- tcg -->
 <?php
 session_start();
-$isIn = isset($_SESSION['user_id']);
+
+$userId = $_SESSION['user_id'] ?? 'guest';
+$sessionKey = "user_" . $userId;
+$isSaved = $_SESSION[$sessionKey . "_saved"] ?? false;
 
 // adjust based on your directory
 require_once __DIR__ . '/vendor/autoload.php';
- 
+require_once "inc/db_connect.php";
+
 // suppress deprecated warnings
 error_reporting(E_ALL & ~E_DEPRECATED);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
+// ini_set('display_startup_errors', 1);
 
 use TCGdex\TCGdex;
 
 $tcgdex = new TCGdex("en");
 
-if (!isset($_SESSION['indexDisplay'])) {
+if (!isset($_SESSION[$sessionKey])) {
     $indexCards = $tcgdex->card->list();
     $indexRandom = array_rand($indexCards, 5);
     $indexDisplay = [];
@@ -27,10 +34,21 @@ if (!isset($_SESSION['indexDisplay'])) {
             'flipped' => false
         ];
     }
-    $_SESSION['indexDisplay'] = $indexDisplay;
+    $_SESSION[$sessionKey] = $indexDisplay;
 }
 
-$indexDisplay = $_SESSION['indexDisplay'];
+$indexDisplay = $_SESSION[$sessionKey];
+$isIn = isset($_SESSION['user_id']);
+$userPoints = 0;
+
+if ($isIn) {
+    try {
+        $userDetails = DBConnect::getUserDetails($_SESSION['user_id']);
+        $userPoints = $userDetails['points'] ?? 0;
+    } catch (Exception $e) {
+        $userPoints = 0; 
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -83,14 +101,33 @@ include "inc/head.inc.php";
                 <!-- register -->
                 <div id="index-register" class="text-center mt-4 d-none opacity-0">
                     <p class="text-white mb-3">Love your deck?</p>
-                    <?php if ($isIn): ?> 
-                        <a href="account.php"> 
-                            <button class="btn btn-outline-light btn-lg">Save to Collection</button> 
-                        </a> 
-                    <?php else: ?> 
-                        <a href="signup.php"> 
-                            <button class="btn btn-outline-light btn-lg">Register to Save</button> 
-                        </a> 
+
+                    <!-- signed -->
+                    <?php if ($isIn): ?>
+                        <!-- reroll -->
+                        <?php if ($userPoints >= 15): ?>
+                        <button id="index-repull-btn" class="btn btn-outline-light btn-lg ms-2" onclick="indexReroll()">
+                            Reroll? (-15 Points)
+                        </button>
+                        <?php endif; ?>
+
+                        <?php if ($isSaved): ?>
+                            <a href="account.php">
+                                <button class="btn btn-outline-success btn-lg disabled">Collection is Saved!</button>
+                            </a>
+
+                            <!-- unsigned -->
+                        <?php else: ?>
+                            <a href="index_save.php">
+                                <button class="btn btn-outline-light btn-lg">Save to Collection</button>
+                            </a>
+                        <?php endif; ?>
+
+
+                    <?php else: ?>
+                        <a href="signup.php">
+                            <button class="btn btn-outline-light btn-lg">Register to Save</button>
+                        </a>
                     <?php endif; ?>
                 </div>
 
