@@ -56,6 +56,8 @@ include "inc/head.inc.php";
     include "inc/nav.inc.php";
     ?>
 
+    <?php include "inc/pokemonIcons.inc.php"; ?>
+
     <main>
 
         <!-- cards -->

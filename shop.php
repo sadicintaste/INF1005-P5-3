@@ -65,6 +65,8 @@ try {
     include "inc/nav.inc.php";
     ?>
 
+    <?php include "inc/pokemonIcons.inc.php"; ?>
+
     <main>
         <!-- search/filter section -->
         <section class="py-4 bg-secondary">

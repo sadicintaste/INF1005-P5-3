@@ -40,6 +40,7 @@ include 'inc/head.inc.php'; ?>
 
 <body>
     <?php include 'inc/nav.inc.php'; ?>
+    <?php include "inc/pokemonIcons.inc.php"; ?>
 
     <?php
     $totalTasks = 4;

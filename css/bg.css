@@ -1,0 +1,324 @@
+
+.scene {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+.pokemon-silhouette {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  opacity: 0.5;
+  filter: drop-shadow(0 0 15px rgba(100, 150, 255, 0.4));
+}
+
+.poke-top-left {
+  top: 10%;
+  left: 10%;
+  filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.5)) brightness(1.1);
+}
+
+.poke-top-right {
+  top: 10%;
+  right: 10%;
+  filter: drop-shadow(0 0 25px rgba(255, 150, 100, 0.5)) brightness(1.05);
+}
+
+.poke-middle-left {
+  top: 40%;
+  left: 2%;
+  filter: drop-shadow(0 0 18px rgba(200, 100, 255, 0.4));
+}
+
+.poke-middle-right {
+  top: 35%;
+  right: 3%;
+  filter: drop-shadow(0 0 20px rgba(100, 255, 200, 0.45));
+}
+
+.poke-bottom-left {
+  bottom: 10%;
+  left: 10%;
+  filter: drop-shadow(0 0 15px rgba(150, 100, 255, 0.5));
+}
+
+.poke-bottom-center {
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: drop-shadow(0 0 20px rgba(100, 200, 100, 0.5)) brightness(1.1);
+}
+
+.poke-bottom-right {
+  bottom: 10%;
+  right: 10%;
+  opacity: 0.6;
+  filter: drop-shadow(0 0 18px rgba(255, 200, 100, 0.45));
+}
+
+@media (max-width: 900px) {
+  .pokemon-silhouette {
+    width: 80px;
+    height: 80px;
+  }
+
+  .poke-top-left {
+    width: 100px;
+    height: 100px;
+  }
+
+  .poke-top-right {
+    width: 110px;
+    height: 110px;
+  }
+
+  .poke-middle-left {
+    width: 95px;
+    height: 95px;
+  }
+
+  .poke-middle-right {
+    width: 100px;
+    height: 100px;
+  }
+
+  .poke-bottom-left {
+    width: 90px;
+    height: 90px;
+  }
+
+  .poke-bottom-center {
+    width: 105px;
+    height: 105px;
+  }
+
+  .poke-bottom-right {
+    width: 95px;
+    height: 95px;
+  }
+}
+
+.stars {
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 20%, rgba(255, 255, 255, 0.9) 40%, transparent 50%),
+    radial-gradient(1px 1px at 22% 64%, rgba(140, 226, 255, 0.9) 40%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 35% 30%, rgba(255, 196, 153, 0.95) 40%, transparent 55%),
+    radial-gradient(1.2px 1.2px at 48% 74%, rgba(255, 255, 255, 0.9) 40%, transparent 55%),
+    radial-gradient(1.2px 1.2px at 60% 40%, rgba(165, 239, 255, 0.95) 40%, transparent 55%),
+    radial-gradient(1px 1px at 72% 58%, rgba(255, 235, 171, 0.9) 40%, transparent 50%),
+    radial-gradient(1.5px 1.5px at 86% 44%, rgba(172, 255, 216, 0.95) 40%, transparent 55%),
+    radial-gradient(1px 1px at 92% 70%, rgba(255, 213, 173, 0.9) 40%, transparent 50%);
+  opacity: 0.95;
+}
+
+.pokeball-wire {
+  position: absolute;
+  width: 230px;
+  height: 230px;
+  border-radius: 50%;
+  border: 2px solid rgba(156, 196, 255, 0.2);
+  box-shadow: inset 0 0 0 1px rgba(103, 193, 255, 0.12);
+}
+
+.pokeball-wire::before,
+.pokeball-wire::after {
+  content: "";
+  position: absolute;
+}
+
+.pokeball-wire::before {
+  top: 50%;
+  left: 0;
+  width: 100%;
+  border-top: 2px solid rgba(156, 196, 255, 0.18);
+}
+
+.pokeball-wire::after {
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid rgba(156, 196, 255, 0.2);
+  box-shadow: inset 0 0 0 6px rgba(156, 196, 255, 0.04);
+}
+
+.ball-top-left {
+  top: 50px;
+  left: 80px;
+}
+
+.ball-top-right {
+  top: 60px;
+  right: 90px;
+  border-color: rgba(255, 123, 188, 0.18);
+}
+
+.ball-top-right::before,
+.ball-top-right::after {
+  border-color: rgba(255, 123, 188, 0.18);
+}
+
+.ball-bottom-right {
+  right: 40px;
+  bottom: 40px;
+  width: 300px;
+  height: 300px;
+  border-color: rgba(152, 122, 255, 0.2);
+}
+
+.ball-bottom-right::before,
+.ball-bottom-right::after {
+  border-color: rgba(152, 122, 255, 0.2);
+}
+
+.type-icon {
+  position: absolute;
+  font-size: 72px;
+  line-height: 1;
+  opacity: 0.9;
+}
+
+/* Center Wireframe Pokeballs */
+.pokeball-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  border: 2px solid rgba(100, 200, 255, 0.3);
+  box-shadow: inset 0 0 0 1px rgba(100, 200, 255, 0.15), 0 0 20px rgba(100, 200, 255, 0.2);
+  transform: translate(-50%, -50%);
+}
+
+.pokeball-center::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  border-top: 2px solid rgba(100, 200, 255, 0.3);
+}
+
+.pokeball-center::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: 20%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border: 2px solid rgba(100, 200, 255, 0.3);
+  box-shadow: inset 0 0 0 6px rgba(100, 200, 255, 0.1);
+}
+
+.pokeball-center-sm {
+  width: 120px;
+  height: 120px;
+}
+
+.pokeball-center-md {
+  width: 200px;
+  height: 200px;
+}
+
+.pokeball-center-lg {
+  width: 300px;
+  height: 300px;
+}
+
+.pokeball-center-xl {
+  width: 400px;
+  height: 400px;
+  border-color: rgba(100, 200, 255, 0.15);
+  box-shadow: inset 0 0 0 1px rgba(100, 200, 255, 0.08), 0 0 30px rgba(100, 200, 255, 0.15);
+}
+
+/* Star Circles */
+.star-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.star {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.9) 40%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.star.blue { background: radial-gradient(circle, rgba(100, 200, 255, 0.95) 40%, transparent 70%); }
+.star.cyan { background: radial-gradient(circle, rgba(100, 255, 255, 0.95) 40%, transparent 70%); }
+.star.purple { background: radial-gradient(circle, rgba(200, 100, 255, 0.95) 40%, transparent 70%); }
+.star.pink { background: radial-gradient(circle, rgba(255, 150, 200, 0.95) 40%, transparent 70%); }
+.star.green { background: radial-gradient(circle, rgba(100, 255, 150, 0.95) 40%, transparent 70%); }
+
+/* Circle 1 - 150px radius */
+.circle-1 .star { animation: star-glow 2s ease-in-out infinite; }
+.circle-1 .star:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-150px); }
+.circle-1 .star:nth-child(2) { transform: translate(-50%, -50%) rotate(45deg) translateY(-150px); }
+.circle-1 .star:nth-child(3) { transform: translate(-50%, -50%) rotate(90deg) translateY(-150px); }
+.circle-1 .star:nth-child(4) { transform: translate(-50%, -50%) rotate(135deg) translateY(-150px); }
+.circle-1 .star:nth-child(5) { transform: translate(-50%, -50%) rotate(180deg) translateY(-150px); }
+.circle-1 .star:nth-child(6) { transform: translate(-50%, -50%) rotate(225deg) translateY(-150px); }
+.circle-1 .star:nth-child(7) { transform: translate(-50%, -50%) rotate(270deg) translateY(-150px); }
+.circle-1 .star:nth-child(8) { transform: translate(-50%, -50%) rotate(315deg) translateY(-150px); }
+
+/* Circle 2 - 250px radius */
+.circle-2 .star { animation: star-twinkle 3s ease-in-out infinite; }
+.circle-2 .star:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-250px); }
+.circle-2 .star:nth-child(2) { transform: translate(-50%, -50%) rotate(36deg) translateY(-250px); }
+.circle-2 .star:nth-child(3) { transform: translate(-50%, -50%) rotate(72deg) translateY(-250px); }
+.circle-2 .star:nth-child(4) { transform: translate(-50%, -50%) rotate(108deg) translateY(-250px); }
+.circle-2 .star:nth-child(5) { transform: translate(-50%, -50%) rotate(144deg) translateY(-250px); }
+.circle-2 .star:nth-child(6) { transform: translate(-50%, -50%) rotate(180deg) translateY(-250px); }
+.circle-2 .star:nth-child(7) { transform: translate(-50%, -50%) rotate(216deg) translateY(-250px); }
+.circle-2 .star:nth-child(8) { transform: translate(-50%, -50%) rotate(252deg) translateY(-250px); }
+.circle-2 .star:nth-child(9) { transform: translate(-50%, -50%) rotate(288deg) translateY(-250px); }
+.circle-2 .star:nth-child(10) { transform: translate(-50%, -50%) rotate(324deg) translateY(-250px); }
+
+/* Circle 3 - 350px radius */
+.circle-3 .star { animation: star-glow 2.5s ease-in-out infinite 0.5s; }
+.circle-3 .star:nth-child(1) { transform: translate(-50%, -50%) rotate(0deg) translateY(-350px); }
+.circle-3 .star:nth-child(2) { transform: translate(-50%, -50%) rotate(30deg) translateY(-350px); }
+.circle-3 .star:nth-child(3) { transform: translate(-50%, -50%) rotate(60deg) translateY(-350px); }
+.circle-3 .star:nth-child(4) { transform: translate(-50%, -50%) rotate(90deg) translateY(-350px); }
+.circle-3 .star:nth-child(5) { transform: translate(-50%, -50%) rotate(120deg) translateY(-350px); }
+.circle-3 .star:nth-child(6) { transform: translate(-50%, -50%) rotate(150deg) translateY(-350px); }
+.circle-3 .star:nth-child(7) { transform: translate(-50%, -50%) rotate(180deg) translateY(-350px); }
+.circle-3 .star:nth-child(8) { transform: translate(-50%, -50%) rotate(210deg) translateY(-350px); }
+.circle-3 .star:nth-child(9) { transform: translate(-50%, -50%) rotate(240deg) translateY(-350px); }
+.circle-3 .star:nth-child(10) { transform: translate(-50%, -50%) rotate(270deg) translateY(-350px); }
+.circle-3 .star:nth-child(11) { transform: translate(-50%, -50%) rotate(300deg) translateY(-350px); }
+.circle-3 .star:nth-child(12) { transform: translate(-50%, -50%) rotate(330deg) translateY(-350px); }
+
+@keyframes star-glow {
+  0%, 100% { opacity: 0.6; filter: drop-shadow(0 0 2px rgba(100, 200, 255, 0.6)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 8px rgba(100, 200, 255, 0.9)); }
+}
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 0.5; filter: drop-shadow(0 0 1px rgba(100, 200, 255, 0.5)); }
+  50% { opacity: 1; filter: drop-shadow(0 0 10px rgba(100, 200, 255, 1)); }
+}

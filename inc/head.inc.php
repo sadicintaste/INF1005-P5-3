@@ -26,4 +26,7 @@
 
     <!-- fontawesome -->
     <script src="https://kit.fontawesome.com/1287cb4aac.js" crossorigin="anonymous"></script>
+
+    <!-- background -->
+    <link rel="stylesheet" href="css/bg.css">
 </head>

@@ -7,8 +7,12 @@ html {
 body {
   /* background: linear-gradient(#240b42, #131313) no-repeat fixed; */
   background: radial-gradient(circle at center, #2a0a4a, #0b0b1a);
-
+  /* background: radial-gradient(circle at 20% 30%, #3a0ca3, #000814); */
+ 
+  background-repeat: no-repeat;
   background-size: cover;
+  background-attachment: fixed;
+
 }
 
 .nav-account-chip {
@@ -50,6 +54,10 @@ body {
 }
 
 .glass-navbar {
+  position: sticky;
+  top: 0.75rem;
+  z-index: 1030;
+
   background: rgba(20, 20, 40, 0.55);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);

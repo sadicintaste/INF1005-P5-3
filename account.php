@@ -69,6 +69,8 @@ error_reporting(E_ALL & ~E_DEPRECATED);
 <body>
     <?php include 'inc/nav.inc.php'; ?>
 
+    <?php include "inc/pokemonIcons.inc.php"; ?>
+
     <main>
         <section class="py-4">
             <div class="container">
