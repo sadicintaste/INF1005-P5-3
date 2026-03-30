@@ -64,11 +64,6 @@ if ($isIn) {
                 </li>
             </ul>
 
-            <form class="d-flex nav-search" role="search" action="shop.php" method="get">
-                <input class="form-control me-2 nav-search-input" type="search" name="q" placeholder="Search Pokemon" aria-label="Search Pokemon" />
-                <button class="btn btn-success nav-search-btn" type="submit">Search</button>
-            </form>
-
             <ul class="navbar-nav align-items-lg-center gap-lg-2 nav-actions">
                 <?php if (!$isIn): ?>
                     <li class="nav-item">
